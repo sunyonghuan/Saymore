@@ -1,4 +1,5 @@
 import ctypes
+import os
 import unittest
 
 from PIL import Image
@@ -79,6 +80,10 @@ class MorphTest(unittest.TestCase):
         self.assertEqual(image.getpixel((24, 24))[3], 255)
 
 
+@unittest.skipUnless(
+    os.name == "nt" and os.environ.get("SAYMORE_RUN_GUI_TESTS") == "1",
+    "真实窗口测试默认关闭；仅在 Windows 下设置 SAYMORE_RUN_GUI_TESTS=1 时运行",
+)
 class NativeCapsuleTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

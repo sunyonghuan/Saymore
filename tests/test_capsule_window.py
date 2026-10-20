@@ -1,5 +1,6 @@
 """真实消息循环验收；使用假的缓存和发送回调，不调用语音模型或外部输入框。"""
 import ctypes
+import os
 import tempfile
 import threading
 import time
@@ -12,6 +13,10 @@ from saymore.ui import overlay
 from saymore.ui.capsule_toolbar import button_rects
 
 
+@unittest.skipUnless(
+    os.name == "nt" and os.environ.get("SAYMORE_RUN_GUI_TESTS") == "1",
+    "真实窗口测试默认关闭；仅在 Windows 下设置 SAYMORE_RUN_GUI_TESTS=1 时运行",
+)
 class CapsuleWindowTest(unittest.TestCase):
     def test_toolbar_actions_and_reposition(self):
         class Buffer:
